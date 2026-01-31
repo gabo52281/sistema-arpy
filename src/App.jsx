@@ -1102,7 +1102,7 @@ verDetalleVenta(result.venta_id);
                         />
                       </div>
                       <div className="form-group">
-                        <label>Teléfono</label>
+                        <label>Cedula</label>
                         <input
                           type="text"
                           value={nuevoCliente.telefono}
@@ -1110,11 +1110,11 @@ verDetalleVenta(result.venta_id);
                             ...nuevoCliente,
                             telefono: e.target.value
                           })}
-                          placeholder="Teléfono"
+                          placeholder="Cedula"
                         />
                       </div>
                       <div className="form-group">
-                        <label>Dirección</label>
+                        <label>Telefono</label>
                         <input
                           type="text"
                           value={nuevoCliente.direccion}
@@ -1122,7 +1122,7 @@ verDetalleVenta(result.venta_id);
                             ...nuevoCliente,
                             direccion: e.target.value
                           })}
-                          placeholder="Dirección"
+                          placeholder="Telefono"
                         />
                       </div>
                     </div>
@@ -1662,7 +1662,7 @@ verDetalleVenta(result.venta_id);
                 <p><strong>Fecha:</strong> {new Date(ventaDetalle.created_at).toLocaleString('es-CO')}</p>
                 <p><strong>Cliente:</strong> {ventaDetalle.cliente_nombre || 'Cliente General'}</p>
                 {ventaDetalle.cliente_telefono && (
-                  <p><strong>Teléfono:</strong> {ventaDetalle.cliente_telefono}</p>
+                  <p><strong>Cedula:</strong> {ventaDetalle.cliente_telefono}</p>
                 )}
                 <p><strong>Método de Pago:</strong> {
                   ventaDetalle.metodo_pago === 'contado' ? 'Contado' :
