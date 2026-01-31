@@ -632,8 +632,6 @@ function App() {
           return;
         }
 
-        mostrarAlerta(`¡Venta #${result.venta_id} registrada exitosamente!`);
-
         // Limpiar venta
         setVentaActual({
           cliente_id: null,
@@ -643,7 +641,19 @@ function App() {
         });
 
         cargarProductos();
-verDetalleVenta(result.venta_id);
+
+        // Mostrar alerta y solo cuando se cierre, abrir el detalle
+        // Esto evita que dos modals se monten al mismo tiempo
+        const ventaId = result.venta_id;
+        setModal({
+          tipo: 'alert',
+          mensaje: `¡Venta #${ventaId} registrada exitosamente!`,
+          mostrar: true,
+          onConfirm: () => {
+            cerrarModal();
+            setTimeout(() => verDetalleVenta(ventaId), 0);
+          }
+        });
 
       } catch (error) {
         console.error(error);
@@ -1721,8 +1731,9 @@ verDetalleVenta(result.venta_id);
               </button>
               {ventaDetalle.estado_pago !== 'pagado' && (
                 <button className="btn btn-success" onClick={() => {
+                  const id = ventaDetalle.id;
                   setVentaDetalle(null);
-                  registrarPago(ventaDetalle.id);
+                  registrarPago(id);
                 }}>
                   💰 Registrar Pago
                 </button>
@@ -1770,7 +1781,10 @@ verDetalleVenta(result.venta_id);
             </div>
             <div className="modal-footer">
               {modal.tipo === 'alert' ? (
-                <button className="btn btn-primary" onClick={cerrarModal}>
+                <button className="btn btn-primary" onClick={() => {
+                  if (modal.onConfirm) modal.onConfirm();
+                  else cerrarModal();
+                }}>
                   Aceptar
                 </button>
               ) : (
